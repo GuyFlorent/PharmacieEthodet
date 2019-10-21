@@ -113,6 +113,7 @@ namespace PharmacieEthodet
         }
         
         // Méthode permettant de mettre à jour la quantité d'un produit ayant le même ID
+        //cets bien
         public void ajaouterStock(Produit produit)
         {
             Stock nouveauStock = new Stock();
