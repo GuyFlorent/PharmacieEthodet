@@ -64,19 +64,33 @@ namespace PharmacieEthodet
             Produit productToAdd = dbContext.Produits.FirstOrDefault(f => f.nom_produit == nom && f.prix_unite == prix);
 
             // Si le produit n'existe pas
-            if (productToAdd == null)
+
+            // Création objet produit
+            if (productToAdd == null )
             {
-                // Création objet produit
                 productToAdd = new Produit();
                 productToAdd.nom_produit = nom;
                 productToAdd.prix_unite = prix;
                 productToAdd.quantite = quantite;
 
-                // Enregistrement dans la table produits et dans la table stock
+            // Enregistrement dans la table produits et dans la table stock
+          
                 dbContext.Produits.Add(productToAdd);
                 ajaouterStock(productToAdd);
                 dbContext.SaveChanges();
-            } 
+            } else //si le produit existe, on création du nouveau produit en gardant le meme ID stock pour faire ensuite la sommme dans stock
+            {
+                productToAdd = new Produit();
+                productToAdd.nom_produit = nom;
+                productToAdd.prix_unite = prix;
+                productToAdd.quantite = quantite;
+                var stoc = dbContext.Produits.FirstOrDefault(f=> f.nom_produit == nom && f.prix_unite == prix);
+                productToAdd.id_stock = stoc.id_stock;
+                dbContext.Produits.Add(productToAdd);
+                //ajaouterStock(productToAdd);
+                updateStock(productToAdd);
+                dbContext.SaveChanges();
+            }
            
             // Le produit existe déjà, on va mettre à jour la quantité ET mettre à jour le stock
 

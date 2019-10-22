@@ -49,7 +49,7 @@ namespace PharmacieEthodet
             listclient = donnees.listeClients();
             clientDataGrid.DataContext = listclient;
             txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = txtNomProduit.Text= "";
-            txtPrixProduit.Text = "";
+            txtPrixProduit.Text = txtQuantite.Text= "";
         }
 
         private void BtnAjouter_Click(object sender, RoutedEventArgs e)
