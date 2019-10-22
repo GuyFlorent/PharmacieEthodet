@@ -48,9 +48,9 @@ namespace PharmacieEthodet
            
             listePro = donnees.listeProduits();
             produitDataGrid.DataContext = listePro;
-            listeBoxProduit.ItemsSource = listePro;
-            listeBoxProduit.DisplayMemberPath = "nom_produit";
-            listeBoxProduit.SelectedIndex = 0;
+            listeBoxProduit.ItemsSource = listePro; // ajout de la liste des produit dans le combobox
+            listeBoxProduit.DisplayMemberPath = "nom_produit";//suite
+            listeBoxProduit.SelectedIndex = 0;//suite
 
             listclient = donnees.listeClients();
             clientDataGrid.DataContext = listclient;
