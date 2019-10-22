@@ -44,6 +44,7 @@
           <Property Name="nom_produit" Type="varchar" MaxLength="50" />
           <Property Name="prix_unite" Type="money" />
           <Property Name="quantite" Type="int" />
+          <Property Name="date_heure_ajout_produit" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -173,6 +174,7 @@
           <NavigationProperty Name="Achats" Relationship="Self.FK_Achat_Produit" FromRole="Produit" ToRole="Achat" />
           <NavigationProperty Name="Stock" Relationship="Self.FK_Produit_Stock" FromRole="Produit" ToRole="Stock" />
           <Property Name="quantite" Type="Int32" />
+          <Property Name="date_heure_ajout_produit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -295,6 +297,7 @@
           <EntitySetMapping Name="Produits">
             <EntityTypeMapping TypeName="PharmacieEthodetModel.Produit">
               <MappingFragment StoreEntitySet="Produit">
+                <ScalarProperty Name="date_heure_ajout_produit" ColumnName="date_heure_ajout_produit" />
                 <ScalarProperty Name="quantite" ColumnName="quantite" />
                 <ScalarProperty Name="id_produit" ColumnName="id_produit" />
                 <ScalarProperty Name="id_stock" ColumnName="id_stock" />

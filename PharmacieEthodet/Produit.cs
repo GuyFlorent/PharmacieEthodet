@@ -25,6 +25,7 @@ namespace PharmacieEthodet
         public string nom_produit { get; set; }
         public Nullable<decimal> prix_unite { get; set; }
         public Nullable<int> quantite { get; set; }
+        public string date_heure_ajout_produit { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Achat> Achats { get; set; }

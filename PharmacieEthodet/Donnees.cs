@@ -72,6 +72,7 @@ namespace PharmacieEthodet
                 productToAdd.nom_produit = nom;
                 productToAdd.prix_unite = prix;
                 productToAdd.quantite = quantite;
+                productToAdd.date_heure_ajout_produit = DateTime.Now.ToString();
 
             // Enregistrement dans la table produits et dans la table stock
           
@@ -84,9 +85,11 @@ namespace PharmacieEthodet
                 productToAdd.nom_produit = nom;
                 productToAdd.prix_unite = prix;
                 productToAdd.quantite = quantite;
+                productToAdd.date_heure_ajout_produit = DateTime.Now.ToString();
                 var stoc = dbContext.Produits.FirstOrDefault(f=> f.nom_produit == nom && f.prix_unite == prix);
                 productToAdd.id_stock = stoc.id_stock;
                 dbContext.Produits.Add(productToAdd);
+                dbContext.SaveChanges();
                 //ajaouterStock(productToAdd);
                 updateStock(productToAdd);
                 dbContext.SaveChanges();

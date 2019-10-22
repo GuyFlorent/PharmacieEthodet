@@ -130,6 +130,7 @@
                                 <DataGridTextColumn x:Name="nom_produitColumn" Binding="{Binding nom_produit}" Header="nom produit" Width="SizeToHeader"/>
                                 <DataGridTextColumn x:Name="prix_uniteColumn" Binding="{Binding prix_unite}" Header="prix unite" Width="SizeToHeader"/>
                                 <DataGridTextColumn x:Name="quantiteColumn" Binding="{Binding quantite}" Header="quantite" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="date_heure_ajout_produitColumn" Binding="{Binding date_heure_ajout_produit}" Header="date/heure d'ajout produit" Width="SizeToHeader"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
