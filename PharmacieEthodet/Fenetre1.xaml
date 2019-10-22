@@ -136,6 +136,56 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock x:Name="MaCommande" Text="Commande"></TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="169*"></ColumnDefinition>
+                                <ColumnDefinition Width="28*"/>
+                                <ColumnDefinition Width="197*"></ColumnDefinition>
+                                <ColumnDefinition Width="196*"></ColumnDefinition>
+                                <ColumnDefinition Width="196*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                <TextBlock Text="liste de client"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                <ComboBox ItemsSource="{Binding nom}" Name="listeclientbox"></ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2">
+                                <TextBlock Text="liste des Produits"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2">
+                                <ComboBox ItemsSource="{Binding nom_produit}" Name="listeBoxProduit" ></ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="3">
+                                <TextBlock Text="Quantité du produit"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3">
+                                <TextBox></TextBox>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="4">
+                                <TextBlock Text="Prix total"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="4">
+                                <TextBox></TextBox>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>

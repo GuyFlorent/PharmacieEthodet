@@ -44,10 +44,21 @@ namespace PharmacieEthodet
 
         public void actualiser()
         {
+            
+           
             listePro = donnees.listeProduits();
             produitDataGrid.DataContext = listePro;
+            listeBoxProduit.ItemsSource = listePro;
+            listeBoxProduit.DisplayMemberPath = "nom_produit";
+            listeBoxProduit.SelectedIndex = 0;
+
             listclient = donnees.listeClients();
             clientDataGrid.DataContext = listclient;
+            
+
+            listeclientbox.ItemsSource = listclient;
+            listeclientbox.DisplayMemberPath = "nom";
+            listeclientbox.SelectedIndex = 0;
             txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = txtNomProduit.Text= "";
             txtPrixProduit.Text = txtQuantite.Text= "";
         }
@@ -104,6 +115,7 @@ namespace PharmacieEthodet
         {
             donnees.ajouterProduits(txtNomProduit.Text, Convert.ToDecimal(txtPrixProduit.Text), Convert.ToInt32(txtQuantite.Text));
             actualiser();
+            MessageBox.Show("stock mis à jour!!");
         }
 
         private void BtnAModifierProduit_Click(object sender, RoutedEventArgs e)
@@ -141,5 +153,6 @@ namespace PharmacieEthodet
                 MessageBox.Show("supprimer avec succes");
             }
         }
+
     }
 }
