@@ -24,6 +24,9 @@ namespace PharmacieEthodet
         private Client cli;
         private List<Produit> listePro;
         private Produit prod;
+
+        private List<Stock> listeStock;
+        private Stock AchatStock;
         public Fenetre1()
         {
             InitializeComponent();
@@ -45,18 +48,20 @@ namespace PharmacieEthodet
         public void actualiser()
         {
             
-           
             listePro = donnees.listeProduits();
             produitDataGrid.DataContext = listePro;
-            listeBoxProduit.ItemsSource = listePro; // ajout de la liste des produit dans le combobox
-            listeBoxProduit.DisplayMemberPath = "nom_produit";//suite
+
+            listeStock = donnees.listeProduits_Stock();
+
+            listeBoxProduit.ItemsSource = listeStock; // ajout de la liste des produit dans le combobox
+            listeBoxProduit.DisplayMemberPath = "nom_produit_stock";//suite
             listeBoxProduit.SelectedIndex = 0;//suite
 
             listclient = donnees.listeClients();
             clientDataGrid.DataContext = listclient;
             
 
-            listeclientbox.ItemsSource = listclient;
+            listeclientbox.ItemsSource = listclient; // ajout de la liste des clients dans le combobox
             listeclientbox.DisplayMemberPath = "nom";
             listeclientbox.SelectedIndex = 0;
             txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = txtNomProduit.Text= "";
@@ -151,8 +156,17 @@ namespace PharmacieEthodet
                 donnees.supprimerProduit(this.prod);
                 actualiser();
                 MessageBox.Show("supprimer avec succes");
+                
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string nomClient = listeclientbox.Text;
+            string nomProduit = listeBoxProduit.Text;
+            string quantite = txtquantite_cmd.Text;
+            donnees.passerCommande(nomClient, nomProduit, Convert.ToInt32(quantite));
+            actualiser();
+        }
     }
 }

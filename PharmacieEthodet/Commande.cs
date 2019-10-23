@@ -26,8 +26,8 @@ namespace PharmacieEthodet
         public string statut_commande { get; set; }
         public string statut_livraison { get; set; }
     
+        public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Achat> Achats { get; set; }
-        public virtual Client Client { get; set; }
     }
 }

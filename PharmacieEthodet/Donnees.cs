@@ -140,9 +140,57 @@ namespace PharmacieEthodet
             // Je veux récupérer l'ID stock de la ligne créée
             var tempProd = dbContext.Stocks.FirstOrDefault(f => f.id_stock == nouveauStock.id_stock);
             produit.id_stock = tempProd.id_stock;
+            tempProd.nom_produit_stock = produit.nom_produit;
             dbContext.SaveChanges();
         }
+        public List<Stock> listeProduits_Stock()
+        {
+            var liste = dbContext.Stocks.ToList();
+            return liste;
+        }
+        // on passe à la commande avec cluent en parametre
 
+        public void passerCommande(string nomclient, string nomproduit,int quantité)
+        {
+            var cli = dbContext.Clients.FirstOrDefault(f => f.nom == nomclient);
+            var prod = dbContext.Stocks.FirstOrDefault(f => f.nom_produit_stock == nomproduit);
+            var prixProd = dbContext.Produits.FirstOrDefault(f => f.nom_produit == nomproduit);
+            if (prod.quantite_produit >= quantité) // si la quantité est inférieur ou égale a la quantité en stock
+            {
+                
+                Commande nouvelCommande = new Commande(); // création nouvelle commande
+                nouvelCommande.heure_commande = DateTime.Now.ToString();
+                nouvelCommande.statut_commande = "Validé";
+                nouvelCommande.statut_livraison = "Livré";
+                nouvelCommande.id_client = cli.id_client;  // id_client dans commande sera egale au meme id_client dans client car le meme nom de client
+                dbContext.Commandes.Add(nouvelCommande); //creation de la commande
+             
+                Achat nouvelAchat = new Achat();//reation nouvel achat
+                nouvelAchat.quantité = quantité;
+                nouvelAchat.id_stock = prod.id_stock; // id_stoc dans achat sera egale au meme id_stock dans produit car le meme nom de produit
+                prod.quantite_produit -= quantité;
+                nouvelAchat.prix_total = quantité * prixProd.prix_unite;
+                dbContext.Achats.Add(nouvelAchat);
+               
+
+                dbContext.SaveChanges();
+
+                var com = dbContext.Commandes.FirstOrDefault(f => f.id_commande == nouvelCommande.id_commande);
+                var achat = dbContext.Achats.FirstOrDefault(f => f.id_achat == nouvelAchat.id_achat);
+                achat.id_commande = com.id_commande; // recupération de id de la nouvelle commande
+
+                dbContext.SaveChanges();
+                
+            }
+        }
+        /*public void Achat(int quantité, doubleixTotal)
+        {
+          //  var verifiQuantité = dbContext.Stocks.FirstOrDefault(f =>f.)
+           
+
+
+            
+        }*/
 
 
 

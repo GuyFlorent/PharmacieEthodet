@@ -25,10 +25,10 @@ namespace PharmacieEthodet
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Achat> Achats { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Commande> Commandes { get; set; }
         public virtual DbSet<Produit> Produits { get; set; }
+        public virtual DbSet<Achat> Achats { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
     }
 }

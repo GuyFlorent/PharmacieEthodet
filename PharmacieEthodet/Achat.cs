@@ -16,11 +16,11 @@ namespace PharmacieEthodet
     {
         public int id_achat { get; set; }
         public int id_commande { get; set; }
-        public Nullable<int> id_produit { get; set; }
+        public Nullable<int> id_stock { get; set; }
         public Nullable<int> quantité { get; set; }
         public Nullable<decimal> prix_total { get; set; }
     
         public virtual Commande Commande { get; set; }
-        public virtual Produit Produit { get; set; }
+        public virtual Stock Stock { get; set; }
     }
 }

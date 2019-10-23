@@ -150,6 +150,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="169*"></ColumnDefinition>
@@ -168,19 +169,23 @@
                                 <TextBlock Text="liste des Produits"></TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="2">
-                                <ComboBox ItemsSource="{Binding nom_produit}" Name="listeBoxProduit" ></ComboBox>
+                                <ComboBox ItemsSource="{Binding nom_produit_stock}" Name="listeBoxProduit" ></ComboBox>
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="3">
                                 <TextBlock Text="Quantité du produit"></TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="3">
-                                <TextBox></TextBox>
+                                <TextBox x:Name="txtquantite_cmd"></TextBox>
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="4">
                                 <TextBlock Text="Prix total"></TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="4">
                                 <TextBox></TextBox>
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <Button Content="valider" Click="Button_Click"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="0"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

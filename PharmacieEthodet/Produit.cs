@@ -14,12 +14,6 @@ namespace PharmacieEthodet
     
     public partial class Produit
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Produit()
-        {
-            this.Achats = new HashSet<Achat>();
-        }
-    
         public int id_produit { get; set; }
         public Nullable<int> id_stock { get; set; }
         public string nom_produit { get; set; }
@@ -27,8 +21,6 @@ namespace PharmacieEthodet
         public Nullable<int> quantite { get; set; }
         public string date_heure_ajout_produit { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Achat> Achats { get; set; }
         public virtual Stock Stock { get; set; }
     }
 }

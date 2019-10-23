@@ -11,7 +11,7 @@
           </Key>
           <Property Name="id_achat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_commande" Type="int" Nullable="false" />
-          <Property Name="id_produit" Type="int" />
+          <Property Name="id_stock" Type="int" />
           <Property Name="quantité" Type="int" />
           <Property Name="prix_total" Type="money" />
         </EntityType>
@@ -51,6 +51,7 @@
             <PropertyRef Name="id_stock" />
           </Key>
           <Property Name="id_stock" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_produit_stock" Type="varchar" MaxLength="50" />
           <Property Name="quantite_produit" Type="int" />
         </EntityType>
         <Association Name="FK_Achat_Commande">
@@ -65,15 +66,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Achat_Produit">
-          <End Role="Produit" Type="Self.Produit" Multiplicity="0..1" />
+        <Association Name="FK_Achat_Stock">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
           <End Role="Achat" Type="Self.Achat" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Produit">
-              <PropertyRef Name="id_produit" />
+            <Principal Role="Stock">
+              <PropertyRef Name="id_stock" />
             </Principal>
             <Dependent Role="Achat">
-              <PropertyRef Name="id_produit" />
+              <PropertyRef Name="id_stock" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -111,8 +112,8 @@
             <End Role="Commande" EntitySet="Commande" />
             <End Role="Achat" EntitySet="Achat" />
           </AssociationSet>
-          <AssociationSet Name="FK_Achat_Produit" Association="Self.FK_Achat_Produit">
-            <End Role="Produit" EntitySet="Produit" />
+          <AssociationSet Name="FK_Achat_Stock" Association="Self.FK_Achat_Stock">
+            <End Role="Stock" EntitySet="Stock" />
             <End Role="Achat" EntitySet="Achat" />
           </AssociationSet>
           <AssociationSet Name="FK_Commande_Clients" Association="Self.FK_Commande_Clients">
@@ -128,18 +129,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PharmacieEthodetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Achat">
-          <Key>
-            <PropertyRef Name="id_achat" />
-          </Key>
-          <Property Name="id_achat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_commande" Type="Int32" Nullable="false" />
-          <Property Name="id_produit" Type="Int32" />
-          <Property Name="quantité" Type="Int32" />
-          <Property Name="prix_total" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Commande" Relationship="Self.FK_Achat_Commande" FromRole="Achat" ToRole="Commande" />
-          <NavigationProperty Name="Produit" Relationship="Self.FK_Achat_Produit" FromRole="Achat" ToRole="Produit" />
-        </EntityType>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="id_client" />
@@ -160,8 +149,8 @@
           <Property Name="heure_commande" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="statut_commande" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="statut_livraison" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Achats" Relationship="Self.FK_Achat_Commande" FromRole="Commande" ToRole="Achat" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Commande_Clients" FromRole="Commande" ToRole="Clients" />
+          <NavigationProperty Name="Achats" Relationship="PharmacieEthodetModel.FK_Achat_Commande" FromRole="Commande" ToRole="Achat" />
         </EntityType>
         <EntityType Name="Produit">
           <Key>
@@ -171,43 +160,10 @@
           <Property Name="id_stock" Type="Int32" />
           <Property Name="nom_produit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="prix_unite" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Achats" Relationship="Self.FK_Achat_Produit" FromRole="Produit" ToRole="Achat" />
-          <NavigationProperty Name="Stock" Relationship="Self.FK_Produit_Stock" FromRole="Produit" ToRole="Stock" />
           <Property Name="quantite" Type="Int32" />
           <Property Name="date_heure_ajout_produit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Stock" Relationship="PharmacieEthodetModel.FK_Produit_Stock" FromRole="Produit" ToRole="Stock" />
         </EntityType>
-        <EntityType Name="Stock">
-          <Key>
-            <PropertyRef Name="id_stock" />
-          </Key>
-          <Property Name="id_stock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="quantite_produit" Type="Int32" />
-          <NavigationProperty Name="Produits" Relationship="Self.FK_Produit_Stock" FromRole="Stock" ToRole="Produit" />
-        </EntityType>
-        <Association Name="FK_Achat_Commande">
-          <End Role="Commande" Type="Self.Commande" Multiplicity="1" />
-          <End Role="Achat" Type="Self.Achat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Commande">
-              <PropertyRef Name="id_commande" />
-            </Principal>
-            <Dependent Role="Achat">
-              <PropertyRef Name="id_commande" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Achat_Produit">
-          <End Role="Produit" Type="Self.Produit" Multiplicity="0..1" />
-          <End Role="Achat" Type="Self.Achat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Produit">
-              <PropertyRef Name="id_produit" />
-            </Principal>
-            <Dependent Role="Achat">
-              <PropertyRef Name="id_produit" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Commande_Clients">
           <End Role="Clients" Type="Self.Client" Multiplicity="0..1" />
           <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
@@ -220,9 +176,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="PharmacieEthodetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Commandes" EntityType="Self.Commande" />
+          <EntitySet Name="Produits" EntityType="Self.Produit" />
+          <AssociationSet Name="FK_Commande_Clients" Association="Self.FK_Commande_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Commande" EntitySet="Commandes" />
+          </AssociationSet>
+          <EntitySet Name="Achats" EntityType="PharmacieEthodetModel.Achat" />
+          <AssociationSet Name="FK_Achat_Commande" Association="PharmacieEthodetModel.FK_Achat_Commande">
+            <End Role="Commande" EntitySet="Commandes" />
+            <End Role="Achat" EntitySet="Achats" />
+          </AssociationSet>
+          <EntitySet Name="Stocks" EntityType="PharmacieEthodetModel.Stock" />
+          <AssociationSet Name="FK_Achat_Stock" Association="PharmacieEthodetModel.FK_Achat_Stock">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="Achat" EntitySet="Achats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Produit_Stock" Association="PharmacieEthodetModel.FK_Produit_Stock">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="Produit" EntitySet="Produits" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Achat">
+          <Key>
+            <PropertyRef Name="id_achat" />
+          </Key>
+          <Property Name="id_achat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_commande" Type="Int32" Nullable="false" />
+          <Property Name="id_stock" Type="Int32" />
+          <Property Name="quantité" Type="Int32" />
+          <Property Name="prix_total" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Commande" Relationship="PharmacieEthodetModel.FK_Achat_Commande" FromRole="Achat" ToRole="Commande" />
+          <NavigationProperty Name="Stock" Relationship="PharmacieEthodetModel.FK_Achat_Stock" FromRole="Achat" ToRole="Stock" />
+        </EntityType>
+        <Association Name="FK_Achat_Commande">
+          <End Type="PharmacieEthodetModel.Commande" Role="Commande" Multiplicity="1" />
+          <End Type="PharmacieEthodetModel.Achat" Role="Achat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commande">
+              <PropertyRef Name="id_commande" />
+            </Principal>
+            <Dependent Role="Achat">
+              <PropertyRef Name="id_commande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="id_stock" />
+          </Key>
+          <Property Name="id_stock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_produit_stock" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="quantite_produit" Type="Int32" />
+          <NavigationProperty Name="Achats" Relationship="PharmacieEthodetModel.FK_Achat_Stock" FromRole="Stock" ToRole="Achat" />
+          <NavigationProperty Name="Produits" Relationship="PharmacieEthodetModel.FK_Produit_Stock" FromRole="Stock" ToRole="Produit" />
+        </EntityType>
+        <Association Name="FK_Achat_Stock">
+          <End Type="PharmacieEthodetModel.Stock" Role="Stock" Multiplicity="0..1" />
+          <End Type="PharmacieEthodetModel.Achat" Role="Achat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="id_stock" />
+            </Principal>
+            <Dependent Role="Achat">
+              <PropertyRef Name="id_stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Produit_Stock">
-          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
-          <End Role="Produit" Type="Self.Produit" Multiplicity="*" />
+          <End Type="PharmacieEthodetModel.Stock" Role="Stock" Multiplicity="0..1" />
+          <End Type="PharmacieEthodetModel.Produit" Role="Produit" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stock">
               <PropertyRef Name="id_stock" />
@@ -232,46 +257,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PharmacieEthodetEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Achats" EntityType="Self.Achat" />
-          <EntitySet Name="Clients" EntityType="Self.Client" />
-          <EntitySet Name="Commandes" EntityType="Self.Commande" />
-          <EntitySet Name="Produits" EntityType="Self.Produit" />
-          <EntitySet Name="Stocks" EntityType="Self.Stock" />
-          <AssociationSet Name="FK_Achat_Commande" Association="Self.FK_Achat_Commande">
-            <End Role="Commande" EntitySet="Commandes" />
-            <End Role="Achat" EntitySet="Achats" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Achat_Produit" Association="Self.FK_Achat_Produit">
-            <End Role="Produit" EntitySet="Produits" />
-            <End Role="Achat" EntitySet="Achats" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Commande_Clients" Association="Self.FK_Commande_Clients">
-            <End Role="Clients" EntitySet="Clients" />
-            <End Role="Commande" EntitySet="Commandes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Produit_Stock" Association="Self.FK_Produit_Stock">
-            <End Role="Stock" EntitySet="Stocks" />
-            <End Role="Produit" EntitySet="Produits" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PharmacieEthodetModelStoreContainer" CdmEntityContainer="PharmacieEthodetEntities">
-          <EntitySetMapping Name="Achats">
-            <EntityTypeMapping TypeName="PharmacieEthodetModel.Achat">
-              <MappingFragment StoreEntitySet="Achat">
-                <ScalarProperty Name="id_achat" ColumnName="id_achat" />
-                <ScalarProperty Name="id_commande" ColumnName="id_commande" />
-                <ScalarProperty Name="id_produit" ColumnName="id_produit" />
-                <ScalarProperty Name="quantité" ColumnName="quantité" />
-                <ScalarProperty Name="prix_total" ColumnName="prix_total" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="PharmacieEthodetModel.Client">
               <MappingFragment StoreEntitySet="Clients">
@@ -306,11 +297,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Achats">
+            <EntityTypeMapping TypeName="PharmacieEthodetModel.Achat">
+              <MappingFragment StoreEntitySet="Achat">
+                <ScalarProperty Name="prix_total" ColumnName="prix_total" />
+                <ScalarProperty Name="quantité" ColumnName="quantité" />
+                <ScalarProperty Name="id_stock" ColumnName="id_stock" />
+                <ScalarProperty Name="id_commande" ColumnName="id_commande" />
+                <ScalarProperty Name="id_achat" ColumnName="id_achat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Stocks">
             <EntityTypeMapping TypeName="PharmacieEthodetModel.Stock">
               <MappingFragment StoreEntitySet="Stock">
-                <ScalarProperty Name="id_stock" ColumnName="id_stock" />
                 <ScalarProperty Name="quantite_produit" ColumnName="quantite_produit" />
+                <ScalarProperty Name="nom_produit_stock" ColumnName="nom_produit_stock" />
+                <ScalarProperty Name="id_stock" ColumnName="id_stock" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -336,16 +339,16 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram DiagramId="d7e4562387b8456dbc4cf5a42aeb258b" Name="Diagram1">
-        <EntityTypeShape EntityType="PharmacieEthodetModel.Achat" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="d7e4562387b8456dbc4cf5a42aeb258b" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="PharmacieEthodetModel.Client" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacieEthodetModel.Commande" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="PharmacieEthodetModel.Produit" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="PharmacieEthodetModel.Stock" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <AssociationConnector Association="PharmacieEthodetModel.FK_Achat_Commande" ManuallyRouted="false" />
-        <AssociationConnector Association="PharmacieEthodetModel.FK_Achat_Produit" ManuallyRouted="false" />
         <AssociationConnector Association="PharmacieEthodetModel.FK_Commande_Clients" ManuallyRouted="false" />
-        <AssociationConnector Association="PharmacieEthodetModel.FK_Produit_Stock" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PharmacieEthodetModel.Achat" Width="1.5" PointX="5.25" PointY="5.125" />
+        <AssociationConnector Association="PharmacieEthodetModel.FK_Achat_Commande" />
+        <EntityTypeShape EntityType="PharmacieEthodetModel.Stock" Width="1.5" PointX="0.75" PointY="2.25" />
+        <AssociationConnector Association="PharmacieEthodetModel.FK_Achat_Stock" />
+        <AssociationConnector Association="PharmacieEthodetModel.FK_Produit_Stock" />
       </Diagram>
     </Diagrams>
   </Designer>
