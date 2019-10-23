@@ -27,6 +27,12 @@ namespace PharmacieEthodet
 
         private List<Stock> listeStock;
         private Stock AchatStock;
+
+        private List<Commande> listeCommande;
+        private Commande comd;
+
+        private List<Achat> listeAchat;
+        private Achat achat;
         public Fenetre1()
         {
             InitializeComponent();
@@ -43,15 +49,31 @@ namespace PharmacieEthodet
             System.Windows.Data.CollectionViewSource produitViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("produitViewSource")));
             // Charger les données en définissant la propriété CollectionViewSource.Source :
             // produitViewSource.Source = [source de données générique]
+            System.Windows.Data.CollectionViewSource commandeViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("commandeViewSource")));
+            // Charger les données en définissant la propriété CollectionViewSource.Source :
+            // commandeViewSource.Source = [source de données générique]
+            System.Windows.Data.CollectionViewSource achatViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("achatViewSource")));
+            // Charger les données en définissant la propriété CollectionViewSource.Source :
+            // achatViewSource.Source = [source de données générique]
+            System.Windows.Data.CollectionViewSource stockViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("stockViewSource")));
+            // Charger les données en définissant la propriété CollectionViewSource.Source :
+            // stockViewSource.Source = [source de données générique]
         }
 
         public void actualiser()
         {
             
             listePro = donnees.listeProduits();
-            produitDataGrid.DataContext = listePro;
+            produitDataGrid.DataContext = listePro;// afficher la liste des produits dans la grid
+
+            listeAchat = donnees.listeAchats();
+            achatDataGrid.DataContext = listeAchat;
+
+            listeCommande = donnees.listeCommand();
+            commandeDataGrid.DataContext = listeCommande;
 
             listeStock = donnees.listeProduits_Stock();
+            stockDataGrid.DataContext = listeStock;
 
             listeBoxProduit.ItemsSource = listeStock; // ajout de la liste des produit dans le combobox
             listeBoxProduit.DisplayMemberPath = "nom_produit_stock";//suite
@@ -167,6 +189,11 @@ namespace PharmacieEthodet
             string quantite = txtquantite_cmd.Text;
             donnees.passerCommande(nomClient, nomProduit, Convert.ToInt32(quantite));
             actualiser();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            mon_tabcontrol.SelectedIndex = 4;
         }
     }
 }

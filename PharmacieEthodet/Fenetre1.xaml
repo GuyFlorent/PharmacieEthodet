@@ -9,12 +9,15 @@
     <Window.Resources>
         <CollectionViewSource x:Key="clientViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Client}, CreateList=True}"/>
         <CollectionViewSource x:Key="produitViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Produit}, CreateList=True}"/>
+        <CollectionViewSource x:Key="commandeViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Commande}, CreateList=True}"/>
+        <CollectionViewSource x:Key="achatViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Achat}, CreateList=True}"/>
+        <CollectionViewSource x:Key="stockViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Stock}, CreateList=True}"/>
     </Window.Resources>
     <DockPanel Background="Beige">
         <StackPanel DockPanel.Dock="top">
             <Label Content=" INTERFACE ADMINISTRATEUR" Foreground="DarkMagenta"></Label>
         </StackPanel>
-        <TabControl Background="Cyan">
+        <TabControl x:Name="mon_tabcontrol" Background="Cyan">
             <TabItem >
                 <TabItem.Header>
                     <TextBlock Text="Clients" Width="50"></TextBlock>
@@ -141,11 +144,12 @@
                     <TextBlock x:Name="MaCommande" Text="Commande"></TextBlock>
                 </TabItem.Header>
                 <Grid>
+
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="90"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0">
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -185,9 +189,76 @@
                                 <StackPanel Grid.Row="2" Grid.Column="0">
                                     <Button Content="valider" Click="Button_Click"/>
                                 </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <TextBlock Height="10"></TextBlock>
+                                    <Button Content="verifier stock" Click="Button_Click_1" />
+                                </StackPanel>
                                 <StackPanel Grid.Row="2" Grid.Column="0"/>
                             </StackPanel>
                         </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" DataContext="{StaticResource commandeViewSource}">
+                        <DataGrid x:Name="commandeDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="279" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="id_commandeColumn" Binding="{Binding id_commande}" Header="id commande" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="id_clientColumn1" Binding="{Binding id_client}" Header="id client" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="heure_commandeColumn" Binding="{Binding heure_commande}" Header="heure commande" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="statut_commandeColumn" Binding="{Binding statut_commande}" Header="statut commande" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="statut_livraisonColumn" Binding="{Binding statut_livraison}" Header="statut livraison" Width="SizeToHeader"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Achat"></TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Background="GhostWhite">
+                        <TextBlock Text="Historique des achats" Foreground="Red"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" DataContext="{StaticResource achatViewSource}">
+                        <DataGrid x:Name="achatDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="314" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="id_achatColumn" Binding="{Binding id_achat}" Header="id achat" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="id_commandeColumn1" Binding="{Binding id_commande}" Header="id commande" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="id_stockColumn1" Binding="{Binding id_stock}" Header="id stock" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="quantitéColumn" Binding="{Binding quantité}" Header="quantité" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="prix_totalColumn" Binding="{Binding prix_total}" Header="prix total" Width="SizeToHeader"/>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="stock"></TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Background="GhostWhite">
+                        <TextBlock Text="Quantité de produit restante" Foreground="SaddleBrown"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" DataContext="{StaticResource stockViewSource}">
+                        <DataGrid x:Name="stockDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="319" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="id_stockColumn2" Binding="{Binding id_stock}" Header="id stock" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="nom_produit_stockColumn" Binding="{Binding nom_produit_stock}" Header="nom produit stock" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="quantite_produitColumn" Binding="{Binding quantite_produit}" Header="quantite produit disponible" Width="SizeToHeader"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
                     </StackPanel>
                 </Grid>
             </TabItem>

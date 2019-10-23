@@ -145,6 +145,7 @@
     <None Include="Pharmacie_Ethodet.edmx.diagram">
       <DependentUpon>Pharmacie_Ethodet.edmx</DependentUpon>
     </None>
+    <None Include="Properties\DataSources\Achat.datasource" />
     <None Include="Properties\DataSources\Client.datasource" />
     <None Include="Properties\DataSources\Commande.datasource" />
     <None Include="Properties\DataSources\Produit.datasource" />

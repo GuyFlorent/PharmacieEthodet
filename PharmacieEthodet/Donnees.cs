@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PharmacieEthodet
 {
@@ -157,21 +158,21 @@ namespace PharmacieEthodet
             var prixProd = dbContext.Produits.FirstOrDefault(f => f.nom_produit == nomproduit);
             if (prod.quantite_produit >= quantité) // si la quantité est inférieur ou égale a la quantité en stock
             {
-                
+
                 Commande nouvelCommande = new Commande(); // création nouvelle commande
                 nouvelCommande.heure_commande = DateTime.Now.ToString();
                 nouvelCommande.statut_commande = "Validé";
                 nouvelCommande.statut_livraison = "Livré";
                 nouvelCommande.id_client = cli.id_client;  // id_client dans commande sera egale au meme id_client dans client car le meme nom de client
                 dbContext.Commandes.Add(nouvelCommande); //creation de la commande
-             
+
                 Achat nouvelAchat = new Achat();//reation nouvel achat
                 nouvelAchat.quantité = quantité;
                 nouvelAchat.id_stock = prod.id_stock; // id_stoc dans achat sera egale au meme id_stock dans produit car le meme nom de produit
                 prod.quantite_produit -= quantité;
                 nouvelAchat.prix_total = quantité * prixProd.prix_unite;
                 dbContext.Achats.Add(nouvelAchat);
-               
+
 
                 dbContext.SaveChanges();
 
@@ -180,19 +181,23 @@ namespace PharmacieEthodet
                 achat.id_commande = com.id_commande; // recupération de id de la nouvelle commande
 
                 dbContext.SaveChanges();
-                
+
             }
+            else
+                MessageBox.Show("la quantité de produit est insuffissant  !!! \n verifier stock!");
         }
-        /*public void Achat(int quantité, doubleixTotal)
+
+        // méthode pour retpuner la liste des commande
+        public List<Commande> listeCommand()
         {
-          //  var verifiQuantité = dbContext.Stocks.FirstOrDefault(f =>f.)
-           
-
-
-            
-        }*/
-
-
-
+            var liste = dbContext.Commandes.ToList();
+            return liste;
+        }
+        public List<Achat> listeAchats()
+        {
+            var liste = dbContext.Achats.ToList();
+            return liste;
+        }
     }
+   
 }
