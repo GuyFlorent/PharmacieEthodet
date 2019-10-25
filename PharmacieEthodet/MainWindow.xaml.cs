@@ -43,20 +43,20 @@ namespace PharmacieEthodet
         private void BtnConnexion_Click(object sender, RoutedEventArgs e)
 
         {
-          /*  if (string.IsNullOrEmpty(conEmail.Text) || string.IsNullOrEmpty(conPassword.Password)){
+           if (string.IsNullOrEmpty(conEmail.Text) || string.IsNullOrEmpty(conPassword.Password)){
                 error.Content = "Champ vide !!!";
                 vider();
             }
             else {
                 bool trouve = donnees.verifierClients(conEmail.Text, conPassword.Password);
                 if (trouve)
-                {*/
+                {
                     Fenetre1 fenetre1 = new Fenetre1();
                     fenetre1.Show();
                     this.Close();
-               /* } else
+               } else
                     error.Content = "Erreur !!!";
                 vider();
-            }*/
+            }
         } }
 }

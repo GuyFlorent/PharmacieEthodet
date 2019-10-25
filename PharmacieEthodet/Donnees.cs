@@ -153,6 +153,17 @@ namespace PharmacieEthodet
 
         public void passerCommande(string nomclient, string nomproduit,int quantité)
         {
+
+            //Dictionary<string, object> mesparms = new Dictionary<string, object>();
+            //mesparms.Add("nomclient", nomclient);
+            //mesparms.Add("nomproduit", nomproduit);
+            //mesparms.Add("quantité", quantité);
+
+            //execute(mesparms);
+
+            //int qtey = (int)mesparms["quantité"];
+            //string nomproduit2 = (string )mesparms["nomproduit"];
+
             var cli = dbContext.Clients.FirstOrDefault(f => f.nom == nomclient);
             var prod = dbContext.Stocks.FirstOrDefault(f => f.nom_produit_stock == nomproduit);
             var prixProd = dbContext.Produits.FirstOrDefault(f => f.nom_produit == nomproduit);
