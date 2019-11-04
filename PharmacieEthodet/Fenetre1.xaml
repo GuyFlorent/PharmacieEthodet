@@ -272,9 +272,7 @@
                             </WrapPanel>
                             <WrapPanel Grid.Row="5">
                                 <Image x:Name="MyImage"  Width="60" Height="50">
-                                    <Image.Source>
-                                        <BitmapImage UriSource="{Binding ElementName=txt_ImagePath, Path=Text}" />
-                                    </Image.Source>
+                                    
                                 </Image>
                             </WrapPanel>
 
