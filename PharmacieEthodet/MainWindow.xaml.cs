@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace PharmacieEthodet
     public partial class MainWindow : Window
     {
         Donnees donnees = new Donnees();
-
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -30,10 +32,13 @@ namespace PharmacieEthodet
 
         private void BtnInscription_Click(object sender, RoutedEventArgs e)
         {
-            donnees.ajouterclients(txtNom.Text, txtPrenom.Text, txtEmail.Text, txtPassword.Password);
-            vider(); MessageBox.Show("Ajouter avec succes!");
+           /* donnees.ajouterclients(txtNom.Text, txtPrenom.Text, txtEmail.Text, txtPassword.Password);
+            vider(); MessageBox.Show("Ajouter avec succes!");*/
 
+            
         }
+
+    
         public void vider()
         {
             txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = "";

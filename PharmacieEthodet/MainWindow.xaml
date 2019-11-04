@@ -22,9 +22,9 @@
                     <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <WrapPanel Grid.Row="0">
-                    <Image Source="/Images/logoPharmacie.PNG" Width="30" ></Image>
-                    <TextBlock Text="    "></TextBlock>
-                    <Label Content="PHARMACIE ETHODET" ></Label>
+                    <Image x:Name="mon_im" Source="/Images/logoPharmacie.PNG" Width="30" ></Image>
+                    <TextBlock x:Name="tb_text" Text="    "></TextBlock>
+                    <Label  Content="PHARMACIE ETHODET" ></Label>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1">
                         <Grid>

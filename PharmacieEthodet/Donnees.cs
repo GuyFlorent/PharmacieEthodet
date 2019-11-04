@@ -144,6 +144,15 @@ namespace PharmacieEthodet
             tempProd.nom_produit_stock = produit.nom_produit;
             dbContext.SaveChanges();
         }
+
+        public void modifier_Image_Stock(Stock stock)//méthode permettant d'ajouter une photo au stock comme un update
+        {
+            var modif = dbContext.Stocks.FirstOrDefault(s => s.nom_produit_stock == stock.nom_produit_stock);
+            modif.nom_produit_stock = stock.nom_produit_stock;
+            modif.image_Produit = stock.image_Produit;
+            
+            dbContext.SaveChanges();
+        }
         public List<Stock> listeProduits_Stock()
         {
             var liste = dbContext.Stocks.ToList();

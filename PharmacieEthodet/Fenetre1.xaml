@@ -12,6 +12,7 @@
         <CollectionViewSource x:Key="commandeViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Commande}, CreateList=True}"/>
         <CollectionViewSource x:Key="achatViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Achat}, CreateList=True}"/>
         <CollectionViewSource x:Key="stockViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Stock}, CreateList=True}"/>
+
     </Window.Resources>
     <DockPanel Background="Beige">
         <StackPanel DockPanel.Dock="top">
@@ -243,22 +244,63 @@
                     <TextBlock Text="stock"></TextBlock>
                 </TabItem.Header>
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Background="GhostWhite">
-                        <TextBlock Text="Quantité de produit restante" Foreground="SaddleBrown"></TextBlock>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="450"></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <WrapPanel Grid.Row="1">
+                                <Label Content="Nom du Produit " Width="100"></Label>
+                                <ComboBox  ItemsSource="{Binding nom_produit_stock}" x:Name="cb_liste_produit"  Text="" Width="180" ></ComboBox>
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="3">
+                                <Label Content="Image Path " Width="100"></Label>
+                                <TextBox x:Name="txt_ImagePath"  Width="320" ></TextBox>
+                               
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="5">
+                                <Image x:Name="MyImage"  Width="60" Height="50">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding ElementName=txt_ImagePath, Path=Text}" />
+                                    </Image.Source>
+                                </Image>
+                            </WrapPanel>
+
+                            <WrapPanel Grid.Row="7">
+                                <Button x:Name="txt_ajouter_image" Content="Ajouter" Width="90" Click="txt_ajouter_image_Click"  ></Button>
+                                <Label Width="20"></Label>
+                                <Button x:Name="txt_chercher_image" Content="Chercher image " Width="90" Click="txt_chercher_image_Click" ></Button>
+                                <Label Width="20"></Label>
+                                <Button x:Name="recuperer_image" Content="recuperer de bdd" Width="100" Click="recuperer_image_Click"></Button>
+                                <Image x:Name="MImage"  Width="60" Height="50">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding ElementName=txt_ImagePath, Path=Text}" />
+                                    </Image.Source>
+                                </Image>
+                            </WrapPanel>
+                        </Grid>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" DataContext="{StaticResource stockViewSource}">
-                        <DataGrid x:Name="stockDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="319" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected">
+                    <StackPanel Grid.Column="1" DataContext="{StaticResource stockViewSource}" >
+                        <DataGrid x:Name="stockDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="367" ItemsSource="{Binding}" Margin="0,0,-100,0" RowDetailsVisibilityMode="VisibleWhenSelected">
                             <DataGrid.Columns>
                                 <DataGridTextColumn x:Name="id_stockColumn2" Binding="{Binding id_stock}" Header="id stock" Width="SizeToHeader"/>
                                 <DataGridTextColumn x:Name="nom_produit_stockColumn" Binding="{Binding nom_produit_stock}" Header="nom produit stock" Width="SizeToHeader"/>
-                                <DataGridTextColumn x:Name="quantite_produitColumn" Binding="{Binding quantite_produit}" Header="quantite produit disponible" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="quantite_produitColumn" Binding="{Binding quantite_produit}" Header="quantite produit" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="image_produitColumn" Binding="{Binding image_Produit}" Header="image produit" Width="SizeToHeader"/>
                             </DataGrid.Columns>
                         </DataGrid>
-
                     </StackPanel>
                 </Grid>
             </TabItem>

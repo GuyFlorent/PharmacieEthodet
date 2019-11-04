@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,11 +35,13 @@ namespace PharmacieEthodet
 
         private List<Achat> listeAchat;
         private Achat achat;
+
+        private byte[] _imageBytes = null;
         public Fenetre1()
         {
             InitializeComponent();
             actualiser();
-            
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -58,11 +62,12 @@ namespace PharmacieEthodet
             System.Windows.Data.CollectionViewSource stockViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("stockViewSource")));
             // Charger les données en définissant la propriété CollectionViewSource.Source :
             // stockViewSource.Source = [source de données générique]
+
         }
 
         public void actualiser()
         {
-            
+
             listePro = donnees.listeProduits();
             produitDataGrid.DataContext = listePro;// afficher la liste des produits dans la grid
 
@@ -79,22 +84,27 @@ namespace PharmacieEthodet
             listeBoxProduit.DisplayMemberPath = "nom_produit_stock";//suite
             listeBoxProduit.SelectedIndex = 0;//suite
 
+            cb_liste_produit.ItemsSource = listeStock; // ajout de la liste des produit coté stock dans le combobox
+            cb_liste_produit.DisplayMemberPath = "nom_produit_stock";//suite
+            cb_liste_produit.SelectedIndex = 0;//suite
+
+
             listclient = donnees.listeClients();
             clientDataGrid.DataContext = listclient;
-            
+
 
             listeclientbox.ItemsSource = listclient; // ajout de la liste des clients dans le combobox
             listeclientbox.DisplayMemberPath = "nom";
             listeclientbox.SelectedIndex = 0;
-            txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = txtNomProduit.Text= "";
-            txtPrixProduit.Text = txtQuantite.Text= "";
+            txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = txtNomProduit.Text = "";
+            txtPrixProduit.Text = txtQuantite.Text = "";
         }
 
         private void BtnAjouter_Click(object sender, RoutedEventArgs e)
         {
             donnees.ajouterclients(txtNom.Text, txtPrenom.Text, txtEmail.Text, txtPassword.Password);
             actualiser();
-            
+
         }
 
         private void BtnModier_Click(object sender, RoutedEventArgs e)
@@ -107,7 +117,7 @@ namespace PharmacieEthodet
             this.cli.password = txtPassword.Password;
             donnees.modifierClients(this.cli);
             actualiser();
-           
+
         }
 
         private void ClientDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -123,10 +133,13 @@ namespace PharmacieEthodet
                 donnees.modifierClients(this.cli);
                 listclient = donnees.listeClients();
                 clientDataGrid.DataContext = listclient;
-               
 
-            } catch (Exception) { 
-            } }
+
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         private void BtnSupprimer_Click(object sender, RoutedEventArgs e)
         {
@@ -164,7 +177,7 @@ namespace PharmacieEthodet
                 txtPrixProduit.Text = prod.prix_unite.ToString();
                 txtNomProduit.Text = prod.nom_produit;
                 txtQuantite.Text = prod.quantite.ToString();
-               donnees.modifierProduit(this.prod);
+                donnees.modifierProduit(this.prod);
                 listePro = donnees.listeProduits();
                 produitDataGrid.DataContext = listePro;
             }
@@ -178,7 +191,7 @@ namespace PharmacieEthodet
                 donnees.supprimerProduit(this.prod);
                 actualiser();
                 MessageBox.Show("supprimer avec succes");
-                
+
             }
         }
 
@@ -194,6 +207,65 @@ namespace PharmacieEthodet
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             mon_tabcontrol.SelectedIndex = 4;
+
+        }
+
+        private void txt_chercher_image_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                Multiselect = false,
+                Filter = "Images (*.jpg,*.png)|*.jpg;*.png|All Files(*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() != true) { return; }
+
+            txt_ImagePath.Text = dialog.FileName;
+            MyImage.Source = new BitmapImage(new Uri(txt_ImagePath.Text));
+
+            using (var fs = new FileStream(txt_ImagePath.Text, FileMode.Open, FileAccess.Read))
+            {
+                _imageBytes = new byte[fs.Length];
+                fs.Read(_imageBytes, 0, System.Convert.ToInt32(fs.Length));
+            }
+        }
+
+        private void txt_ajouter_image_Click(object sender, RoutedEventArgs e)
+        {
+            AchatStock = new Stock();
+            listeStock = donnees.listeProduits_Stock();
+            var stock = listeStock[cb_liste_produit.SelectedIndex];
+            AchatStock.nom_produit_stock = stock.nom_produit_stock;
+            AchatStock.image_Produit = _imageBytes;
+            donnees.modifier_Image_Stock(this.AchatStock);
+            actualiser();
+
+        }
+
+        private void recuperer_image_Click(object sender, RoutedEventArgs e)
+        {
+            listeStock = donnees.listeProduits_Stock();
+            var img = listeStock[cb_liste_produit.SelectedIndex].image_Produit;
+            
+
+          /*  if (img != null)
+            {
+                // Display the loaded image
+                MyImage.Source = new BitmapImage(new Uri(img.nom_produit_stock));
+            }*/
+
+            Stream StreamObj = new MemoryStream(img); //code permettant de recuperer l'image de la base de donnée
+
+            BitmapImage BitObj = new BitmapImage();
+
+            BitObj.BeginInit();
+
+            BitObj.StreamSource = StreamObj;
+
+            BitObj.EndInit();
+
+            this.MImage.Source = BitObj;
         }
     }
 }
