@@ -37,6 +37,7 @@ namespace PharmacieEthodet
         private Achat achat;
 
         private byte[] _imageBytes = null;
+        private string img = null;
         public Fenetre1()
         {
             InitializeComponent();
@@ -223,12 +224,13 @@ namespace PharmacieEthodet
 
             txt_ImagePath.Text = dialog.FileName;
             MyImage.Source = new BitmapImage(new Uri(txt_ImagePath.Text));
+            img = txt_ImagePath.Text;
 
-            using (var fs = new FileStream(txt_ImagePath.Text, FileMode.Open, FileAccess.Read))
+          /*  using (var fs = new FileStream(txt_ImagePath.Text, FileMode.Open, FileAccess.Read))
             {
                 _imageBytes = new byte[fs.Length];
                 fs.Read(_imageBytes, 0, System.Convert.ToInt32(fs.Length));
-            }
+            }*/
         }
 
         private void txt_ajouter_image_Click(object sender, RoutedEventArgs e)
@@ -237,7 +239,8 @@ namespace PharmacieEthodet
             listeStock = donnees.listeProduits_Stock();
             var stock = listeStock[cb_liste_produit.SelectedIndex];
             AchatStock.nom_produit_stock = stock.nom_produit_stock;
-            AchatStock.image_Produit = _imageBytes;
+            // AchatStock.image_Produit = _imageBytes;
+            AchatStock.image_test = img;
             donnees.modifier_Image_Stock(this.AchatStock);
             actualiser();
 
@@ -246,26 +249,47 @@ namespace PharmacieEthodet
         private void recuperer_image_Click(object sender, RoutedEventArgs e)
         {
             listeStock = donnees.listeProduits_Stock();
-            var img = listeStock[cb_liste_produit.SelectedIndex].image_Produit;
-            
+            var imga = listeStock[cb_liste_produit.SelectedIndex].image_test;
 
-          /*  if (img != null)
+            MImage.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(imga);
+            /*  if (img != null)
+              {
+                  // Display the loaded image
+                  MyImage.Source = new BitmapImage(new Uri(img.nom_produit_stock));
+              }*/
+
+            /* Stream StreamObj = new MemoryStream(img); //code permettant de recuperer l'image de la base de donnée
+
+             BitmapImage BitObj = new BitmapImage();
+
+             BitObj.BeginInit();
+
+             BitObj.StreamSource = StreamObj;
+
+             BitObj.EndInit();
+
+             this.MImage.Source = BitObj;*/
+        }
+
+        private void cb_liste_produit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            /*listeStock = donnees.listeProduits_Stock();
+            try
             {
-                // Display the loaded image
-                MyImage.Source = new BitmapImage(new Uri(img.nom_produit_stock));
-            }*/
+                var img = listeStock[cb_liste_produit.SelectedIndex].image_Produit;
+                Stream StreamObj = new MemoryStream(img); //code permettant de recuperer l'image de la base de donnée
 
-            Stream StreamObj = new MemoryStream(img); //code permettant de recuperer l'image de la base de donnée
+                BitmapImage BitObj = new BitmapImage();
 
-            BitmapImage BitObj = new BitmapImage();
+                BitObj.BeginInit();
 
-            BitObj.BeginInit();
+                BitObj.StreamSource = StreamObj;
 
-            BitObj.StreamSource = StreamObj;
+                BitObj.EndInit();
 
-            BitObj.EndInit();
-
-            this.MImage.Source = BitObj;
+                this.MImage.Source = BitObj;
+            }
+            catch (Exception) { }*/
         }
     }
 }

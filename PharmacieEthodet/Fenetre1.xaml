@@ -263,7 +263,7 @@
                             </Grid.RowDefinitions>
                             <WrapPanel Grid.Row="1">
                                 <Label Content="Nom du Produit " Width="100"></Label>
-                                <ComboBox  ItemsSource="{Binding nom_produit_stock}" x:Name="cb_liste_produit"  Text="" Width="180" ></ComboBox>
+                                <ComboBox  ItemsSource="{Binding nom_produit_stock}" x:Name="cb_liste_produit"  Text="" Width="180" SelectionChanged="cb_liste_produit_SelectionChanged" ></ComboBox>
                             </WrapPanel>
                             <WrapPanel Grid.Row="3">
                                 <Label Content="Image Path " Width="100"></Label>
@@ -283,9 +283,7 @@
                                 <Label Width="20"></Label>
                                 <Button x:Name="recuperer_image" Content="recuperer de bdd" Width="100" Click="recuperer_image_Click"></Button>
                                 <Image x:Name="MImage"  Width="60" Height="50">
-                                    <Image.Source>
-                                        <BitmapImage UriSource="{Binding ElementName=txt_ImagePath, Path=Text}" />
-                                    </Image.Source>
+                                   
                                 </Image>
                             </WrapPanel>
                         </Grid>

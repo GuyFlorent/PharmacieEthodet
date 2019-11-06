@@ -150,7 +150,7 @@ namespace PharmacieEthodet
             var modif = dbContext.Stocks.FirstOrDefault(s => s.nom_produit_stock == stock.nom_produit_stock);
             modif.nom_produit_stock = stock.nom_produit_stock;
             modif.image_Produit = stock.image_Produit;
-            
+            modif.image_test = stock.image_test;
             dbContext.SaveChanges();
         }
         public List<Stock> listeProduits_Stock()
