@@ -29,7 +29,7 @@ namespace PharmacieEthodet
 
         public bool verifierClients(string email, string pass)
         {
-            
+            //
             //var verifie = dbContext.Clients.Where(f => f.email == email).Where(s => s.password == pass).FirstOrDefault();
             var verifie = dbContext.Clients.FirstOrDefault(f => f.email == email && f.password == pass);
             if (verifie != null)
