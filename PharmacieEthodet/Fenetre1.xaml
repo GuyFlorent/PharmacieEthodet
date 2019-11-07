@@ -260,23 +260,30 @@
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="20"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
+                              <RowDefinition Height="20"></RowDefinition>
+                              <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <WrapPanel Grid.Row="1">
                                 <Label Content="Nom du Produit " Width="100"></Label>
                                 <ComboBox  ItemsSource="{Binding nom_produit_stock}" x:Name="cb_liste_produit"  Text="" Width="180" SelectionChanged="cb_liste_produit_SelectionChanged" ></ComboBox>
                             </WrapPanel>
                             <WrapPanel Grid.Row="3">
-                                <Label Content="Image Path " Width="100"></Label>
-                                <TextBox x:Name="txt_ImagePath"  Width="320" ></TextBox>
+                                <Label Content="Image web Path " Width="100"></Label>
+                                <TextBox x:Name="txt_Web_ImagePath"  Width="320" ></TextBox>
                                
                             </WrapPanel>
-                            <WrapPanel Grid.Row="5">
+                          <WrapPanel Grid.Row="5">
+                            <Label Content="Image Local Path " Width="100"></Label>
+                            <TextBox x:Name="txt_Local_ImagePath"  Width="320" ></TextBox>
+
+                          </WrapPanel>
+                            <WrapPanel Grid.Row="7">
                                 <Image x:Name="MyImage"  Width="60" Height="50">
                                     
                                 </Image>
                             </WrapPanel>
 
-                            <WrapPanel Grid.Row="7">
+                            <WrapPanel Grid.Row="9">
                                 <Button x:Name="txt_ajouter_image" Content="Ajouter" Width="90" Click="txt_ajouter_image_Click"  ></Button>
                                 <Label Width="20"></Label>
                                 <Button x:Name="txt_chercher_image" Content="Chercher image " Width="90" Click="txt_chercher_image_Click" ></Button>
@@ -294,7 +301,7 @@
                                 <DataGridTextColumn x:Name="id_stockColumn2" Binding="{Binding id_stock}" Header="id stock" Width="SizeToHeader"/>
                                 <DataGridTextColumn x:Name="nom_produit_stockColumn" Binding="{Binding nom_produit_stock}" Header="nom produit stock" Width="SizeToHeader"/>
                                 <DataGridTextColumn x:Name="quantite_produitColumn" Binding="{Binding quantite_produit}" Header="quantite produit" Width="SizeToHeader"/>
-                                <DataGridTextColumn x:Name="image_produitColumn" Binding="{Binding image_Produit}" Header="image produit" Width="SizeToHeader"/>
+                                <DataGridTextColumn x:Name="image_produitColumn" Binding="{Binding image_test}" Header="image produit" Width="SizeToHeader"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

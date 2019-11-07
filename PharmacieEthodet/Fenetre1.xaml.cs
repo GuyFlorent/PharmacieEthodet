@@ -37,7 +37,7 @@ namespace PharmacieEthodet
         private Achat achat;
 
         private byte[] _imageBytes = null;
-        private string img = null;
+        private string img ;
         public Fenetre1()
         {
             InitializeComponent();
@@ -99,6 +99,7 @@ namespace PharmacieEthodet
             listeclientbox.SelectedIndex = 0;
             txtNom.Text = txtPrenom.Text = txtEmail.Text = txtPassword.Password = txtNomProduit.Text = "";
             txtPrixProduit.Text = txtQuantite.Text = "";
+            txt_Local_ImagePath.Text = txt_Web_ImagePath.Text= "";
         }
 
         private void BtnAjouter_Click(object sender, RoutedEventArgs e)
@@ -222,9 +223,10 @@ namespace PharmacieEthodet
 
             if (dialog.ShowDialog() != true) { return; }
 
-            txt_ImagePath.Text = dialog.FileName;
-            MyImage.Source = new BitmapImage(new Uri(txt_ImagePath.Text));
-            img = txt_ImagePath.Text;
+            txt_Local_ImagePath.Text = dialog.FileName;
+            MyImage.Source = new BitmapImage(new Uri(txt_Local_ImagePath.Text));
+            img = txt_Local_ImagePath.Text;
+           
 
           /*  using (var fs = new FileStream(txt_ImagePath.Text, FileMode.Open, FileAccess.Read))
             {
@@ -240,7 +242,7 @@ namespace PharmacieEthodet
             var stock = listeStock[cb_liste_produit.SelectedIndex];
             AchatStock.nom_produit_stock = stock.nom_produit_stock;
             // AchatStock.image_Produit = _imageBytes;
-            AchatStock.image_test = img;
+            AchatStock.image_test = txt_Web_ImagePath.Text;
             donnees.modifier_Image_Stock(this.AchatStock);
             actualiser();
 
@@ -249,9 +251,10 @@ namespace PharmacieEthodet
         private void recuperer_image_Click(object sender, RoutedEventArgs e)
         {
             listeStock = donnees.listeProduits_Stock();
+            try{
             var imga = listeStock[cb_liste_produit.SelectedIndex].image_test;
 
-            MImage.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(imga);
+            MImage.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(imga);}catch(Exception){}
             /*  if (img != null)
               {
                   // Display the loaded image
@@ -273,6 +276,14 @@ namespace PharmacieEthodet
 
         private void cb_liste_produit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            
+            listeStock = donnees.listeProduits_Stock();
+            try{
+            var imga = listeStock[cb_liste_produit.SelectedIndex].image_test;
+
+            MImage.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(imga);}catch(Exception){}
+
             /*listeStock = donnees.listeProduits_Stock();
             try
             {
