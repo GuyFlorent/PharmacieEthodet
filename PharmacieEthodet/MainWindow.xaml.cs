@@ -32,10 +32,9 @@ namespace PharmacieEthodet
 
         private void BtnInscription_Click(object sender, RoutedEventArgs e)
         {
-           /* donnees.ajouterclients(txtNom.Text, txtPrenom.Text, txtEmail.Text, txtPassword.Password);
-            vider(); MessageBox.Show("Ajouter avec succes!");*/
+            /* donnees.ajouterclients(txtNom.Text, txtPrenom.Text, txtEmail.Text, txtPassword.Password);
+             vider(); MessageBox.Show("Ajouter avec succes!");*/
 
-            
         }
 
     
